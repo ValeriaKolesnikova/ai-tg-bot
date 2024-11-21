@@ -1,11 +1,16 @@
 import os
 from dotenv import load_dotenv
-import asyncio
+import httpx
 from openai import AsyncOpenAI
 
 load_dotenv()
 
-client = AsyncOpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = AsyncOpenAI(
+    api_key=os.getenv('OPENAI_API_KEY'),
+    http_client=httpx.AsyncClient(proxies=os.getenv('PROXY'),
+                                  transport=httpx.HTTPTransport(local_address=os.getenv('LOCAL_ADRESS'))
+    )
+)
 
 
 async def generate_text(request, model):
