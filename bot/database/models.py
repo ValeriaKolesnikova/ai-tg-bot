@@ -40,6 +40,7 @@ class AiModel(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(length=25))
     model: Mapped[int] = mapped_column(ForeignKey('ai_types.id'))
+    price: Mapped[str] = mapped_column(String(length=25))
 
 
 class Order(Base):

@@ -18,4 +18,7 @@ async def generate_text(request, model):
         messages=[{'role': 'user', 'content': request}],
         model=model
     )
-    return completion.choices[0].message.content
+    return {
+        'response':'completion.choices[0].message.content',
+        'tokens': 'completion.usage.total_tokens'
+    }
