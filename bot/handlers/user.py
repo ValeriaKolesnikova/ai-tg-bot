@@ -6,12 +6,14 @@ from aiogram.fsm.context import FSMContext
 from keyboards import main_kb as kb
 from states.state import ChatState
 from ai.generators import generate_text
+from database.requests import set_user
 
 router = Router()
 
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
+    await set_user(message.from_user.id)
     await message.answer(text='Hello! This AI bot', reply_markup=kb.main)
 
 
