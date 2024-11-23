@@ -12,6 +12,7 @@ from database.requests import set_user, get_user, calculate
 router = Router()
 
 
+@router.message(F.text=='Отмена')
 @router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     await set_user(message.from_user.id)
@@ -24,7 +25,7 @@ async def chat(message: Message, state: FSMContext):
     user = await get_user(message.from_user.id)
     if Decimal(user.balance) > 0:
         await state.set_state(ChatState.text)
-        await message.answer(text='Введите ваш запрос ChatGPT:')
+        await message.answer(text='Введите ваш запрос ChatGPT:', reply_markup=kb.cancel)
     else:
         await message.answer('Недостаточно средств на балансе')
 
@@ -35,7 +36,7 @@ async def chat_response(message: Message, state: FSMContext):
     response = await generate_text(message.text, 'gpt-3.5-turbo')
     await calculate(message.from_user.id, response['tokens'], 'gpt-4o')
     await message.answer(response['response'])
-    await state.clear()
+    await state.set_state(ChatState.text)
 
 
 @router.message(ChatState.wait)
