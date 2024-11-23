@@ -18,7 +18,7 @@
 git clone git@github.com:ValeriaKolesnikova/ai-tg-bot.git
 ```
 
-## Установить зависимости для бэкэнд-приложения Django
+## Установить зависимости
 
 ```
 python3 -m venv venv
